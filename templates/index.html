@@ -1,0 +1,50 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>To-Do List</h1>
+
+    <form action="/add_task" method="post">
+        <input type="text" name="description" placeholder="Enter task description" required>
+        <select name="priority">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Priority</th>
+            <th>Description</th>
+            <th>Delete</th>
+        </tr>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task[0] }}</td>
+            <td>{{ task[1] }}</td>
+            <td><center>{{ task[2] }}</center></td>
+            <td>
+                <!-- Delete button -->
+                <form action="/delete_task/{{ task[0] }}" method="post" style="display: inline;">
+                    <button type="submit" class="delete-button">X</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4">No tasks found</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
